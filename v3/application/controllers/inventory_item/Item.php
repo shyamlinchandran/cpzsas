@@ -1,0 +1,1145 @@
+<?php
+
+defined('BASEPATH') or exit('No direct script access allowed');
+/*
+ */
+
+/**
+ *
+ * @author dimind
+ */
+class Item extends MY_Controller
+{
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('inventory_item/item_model', 'item');
+        $this->load->library('slim');
+        $this->load->library('excel'); //load PHPExcel library 
+        $this->load->model('excel_data_insert_model', 'itemexcel');
+    }
+
+    public function listall()
+    {
+        $this->load->view('_blocks/subpages/create');
+        $this->load->view('_blocks/subpages/list');
+        $this->load->view('items/inventory_item/list_all');
+    }
+
+    public function barcode_print($id = 0)
+    {
+        $data['id'] = $id;
+        $this->load->view('_blocks/subpages/create');
+        $this->load->view('_blocks/subpages/list');
+        $this->load->view('items/print_barcode', $data);
+    }
+
+    public function getitembarcode($id)
+    {
+        return $this->item->getitembarcode($id);
+    }
+
+    public function printlist($item_id, $unit_id)
+    {
+        $data['units'] = $this->item->getunits($unit_id);
+        $data['id'] = $item_id;
+        $this->load->view('_blocks/subpages/create');
+        $this->load->view('_blocks/subpages/list');
+        $this->load->view('items/printlist', $data);
+    }
+
+    public function getaddress($id)
+    {
+        $this->item->getaddress($id);
+    }
+
+    /*
+  | -------------------------------------------------------------------
+  |  Auto-load Packages
+  | -------------------------------------------------------------------
+  | Prototype:
+  |
+  |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
+  |
+  */
+
+    public function getProductionStock()
+    {
+        $this->load->view('_blocks/subpages/create');
+        $this->load->view('_blocks/subpages/list');
+        $this->load->view('items/getProductionStock');
+    }
+
+    /*
+  | -------------------------------------------------------------------
+  |  Auto-load Packages
+  | -------------------------------------------------------------------
+  | Prototype:
+  |
+  |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
+  |
+  */
+
+    public function addProductionStock($id = 0)
+    {
+        $this->load->view('_blocks/subpages/create');
+        $this->load->view('_blocks/subpages/list');
+        $data['option'] = 'create';
+        $data['id'] = $id;
+        $userid = $this->session->userdata('user');
+        $userid = $userid['Id'];
+        $data['user'] = $userid;
+        $this->load->view('items/createProductionStock', $data);
+    }
+
+    /*
+  | -------------------------------------------------------------------
+  |  Auto-load Packages
+  | -------------------------------------------------------------------
+  | Prototype:
+  |
+  |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
+  |
+  */
+
+    public function getItemSize()
+    {
+        $this->load->view('_blocks/subpages/create');
+        $this->load->view('_blocks/subpages/list');
+        $this->load->view('items/getItemSize');
+    }
+
+    /*
+  | -------------------------------------------------------------------
+  |  Auto-load Packages
+  | -------------------------------------------------------------------
+  | Prototype:
+  |
+  |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
+  |
+  */
+
+    public function addItemSize($id = 0)
+    {
+        $this->load->view('_blocks/subpages/create');
+        $this->load->view('_blocks/subpages/list');
+        $data['option'] = 'create';
+        $data['id'] = $id;
+        $this->load->view('items/createSize', $data);
+    }
+
+    /*
+  | -------------------------------------------------------------------
+  |  Auto-load Packages
+  | -------------------------------------------------------------------
+  | Prototype:
+  |
+  |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
+  |
+  */
+
+    public function getAllSize($id = 0)
+    {
+        $this->item->getAllSize($id);
+    }
+
+    /*
+  | -------------------------------------------------------------------
+  |  Auto-load Packages
+  | -------------------------------------------------------------------
+  | Prototype:
+  |
+  |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
+  |
+  */
+
+    public function deleteSize($id)
+    {
+        $this->item->deleteSize($id);
+    }
+
+    /*
+  | -------------------------------------------------------------------
+  |  Auto-load Packages
+  | -------------------------------------------------------------------
+  | Prototype:
+  |
+  |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
+  |
+  */
+
+    public function deleteProduction($id)
+    {
+        $this->item->deleteProduction($id);
+    }
+
+
+
+
+
+    /*
+  | -------------------------------------------------------------------
+  |  Auto-load Packages
+  | -------------------------------------------------------------------
+  | Prototype:
+  |
+  |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
+  |
+  */
+
+    public function saveItemSize()
+    {
+        $this->item->saveItemSize();
+    }
+
+    /*
+  | -------------------------------------------------------------------
+  |  Auto-load Packages
+  | -------------------------------------------------------------------
+  | Prototype:
+  |
+  |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
+  |
+  */
+
+    public function getItemColor()
+    {
+        $this->load->view('_blocks/subpages/create');
+        $this->load->view('_blocks/subpages/list');
+        $this->load->view('items/getItemColor');
+    }
+
+    /*
+  | -------------------------------------------------------------------
+  |  Auto-load Packages
+  | -------------------------------------------------------------------
+  | Prototype:
+  |
+  |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
+  |
+  */
+
+    public function addItemColor($id = 0)
+    {
+        $this->load->view('_blocks/subpages/create');
+        $this->load->view('_blocks/subpages/list');
+        $data['option'] = 'create';
+        $data['id'] = $id;
+        $this->load->view('items/createColor', $data);
+    }
+
+    /*
+  | -------------------------------------------------------------------
+  |  Auto-load Packages
+  | -------------------------------------------------------------------
+  | Prototype:
+  |
+  |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
+  |
+  */
+
+    public function saveItemColor()
+    {
+        $this->item->saveItemColor();
+    }
+
+    /*
+  | -------------------------------------------------------------------
+  |  Auto-load Packages
+  | -------------------------------------------------------------------
+  | Prototype:
+  |
+  |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
+  |
+  */
+
+    public function getAllColor($id = 0)
+    {
+        $this->item->getAllColor($id);
+    }
+
+    /*
+  | -------------------------------------------------------------------
+  |  Auto-load Packages
+  | -------------------------------------------------------------------
+  | Prototype:
+  |
+  |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
+  |
+  */
+
+    public function deleteColor($id)
+    {
+        $this->item->deleteColor($id);
+    }
+
+    /*
+  | -------------------------------------------------------------------
+  |  Auto-load Packages
+  | -------------------------------------------------------------------
+  | Prototype:
+  |
+  |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
+  |
+  */
+
+    public function getAllItems()
+    {
+        $search = strtolower($_GET['term']);
+        return $this->item->getAllItems($search);
+    }
+    /*
+  | -------------------------------------------------------------------
+  |  Auto-load Packages
+  | -------------------------------------------------------------------
+  | Prototype:
+  |
+  |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
+  |
+  */
+
+    public function getAllGodowns()
+    {
+        $search = strtolower($_GET['term']);
+        return $this->item->getAllGodowns($search);
+    }
+
+    /*
+  | -------------------------------------------------------------------
+  |  Auto-load Packages
+  | -------------------------------------------------------------------
+  | Prototype:
+  |
+  |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
+  |
+  */
+
+    public function saveProductionStock()
+    {
+        return $this->item->saveProductionStock();
+    }
+
+    /*
+  | -------------------------------------------------------------------
+  |  Auto-load Packages
+  | -------------------------------------------------------------------
+  | Prototype:
+  |
+  |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
+  |
+  */
+    public function getAllProductionStock($id)
+    {
+        $this->item->getAllProductionStock($id);
+    }
+
+    public function getCusType()
+    {
+        $this->item->getCusType();
+    }
+
+
+
+
+    function editbarcode($id, $unit_id)
+    {
+        $data['id'] = $id;
+        $data['unit_id'] = $unit_id;
+        $this->load->view('_blocks/subpages/create');
+        $this->load->view('items/editbarcode', $data);
+    }
+
+    public function getbarcode()
+    {
+        return $this->item->getbarcode();
+    }
+
+    function create($id = 0, $type = '')
+    {
+        $this->load->view('_blocks/subpages/create');
+        $data['isbatch'] = $this->getKey('isbatch');
+        $data['isgodown'] = $this->getKey('is_godown');
+        $itemtype = $this->item->Itemtype();
+        $settings = $this->item->getCompanySettings();
+        $data['settings'] = $settings;
+        $data['itemtype'] = $itemtype;
+        $data['id'] = $id;
+        $data['type'] = $type;
+        $data['view'] = "create";
+        $this->load->view('items/inventory_item/create', $data);
+    }
+
+    function getsing($id)
+    {
+        $this->item->getsing($id);
+    }
+
+    function get_image($id)
+    {
+        $this->item->get_image($id);
+    }
+
+    function check_barcode($id)
+    {
+        $this->item->check_barcode($id);
+    }
+
+    function godownitem($id)
+    {
+        $this->item->getgodownitem($id);
+        // echo json_encode($result);
+    }
+
+    function otheritem($id)
+    {
+        $this->item->getotheritem($id);
+        // echo json_encode($result);
+    }
+
+    function allgodown()
+    {
+        $this->item->getallgodown();
+    }
+
+    public function godown($id)
+    {
+        $this->item->godown($id);
+    }
+
+    function gettaxldg($id)
+    {
+        $this->item->gettaxldg($id);
+    }
+
+    public function taxldg_find($type)
+    {
+        $search = strtolower($_GET['term']);
+        return $this->item->taxldg_find($search, $type);
+    }
+
+    function edit($id)
+    {
+        $this->load->view('_blocks/subpages/create');
+        $godown = 1;
+        $data['isbatch'] = $this->getKey('isbatch');
+        $settings = $this->item->getCompanySettings();
+        $itemtype = $this->item->Itemtype();
+        $data['itemtype'] = $itemtype;
+        $data['settings'] = $settings;
+        $data['id'] = $id;
+        $data['view'] = 'edit';
+        $this->load->view('items/inventory_item/create', $data);
+    }
+
+    function view($id)
+    {
+        $this->load->view('_blocks/subpages/create');
+        $godown = 1;
+        $data['isbatch'] = $this->getKey('isbatch');
+        $settings = $this->item->getCompanySettings();
+        $itemtype = $this->item->Itemtype();
+        $data['itemtype'] = $itemtype;
+        $data['settings'] = $settings;
+        $data['id'] = $id;
+        $data['view'] = 'view';
+        $this->load->view('items/create', $data);
+    }
+
+    public function delete($id)
+    {
+        $this->item->delete($id);
+    }
+
+    public function barcode_list()
+    {
+        $this->item->barcode();
+        $list = $this->item->get_datatables();
+        //$itemcount = $this->item->getledgeritem();
+        $data = array();
+        $count = 1;
+        $no = $this->input->post('start');
+        foreach ($list as $item) {
+            $no++;
+            if ($no < 2) {
+                $name = $item->name;
+                $sid = $item->sid;
+            } else {
+                $count = $count * $item->unit_count;
+                $item->srate = $item->srate * $count;
+                if ($item->sid === 0) {
+                    $item->irate = 'add rate';
+                }
+            }
+            $row = array();
+            $row[] = $no;
+            $row[] = $name;
+            $row[] = $item->unit;
+            $row[] = $count;
+            $row[] = $item->irate;
+            $row[] = $item->item_barcode;
+            $act = '<a  href="' . base_url() . 'item/editbarcode/' . $sid . '/' . $item->uid . '" title="Edit" data-toggle="Change Barcode" class="btn btn-success"><span class="glyphicon glyphicon-edit"></span></a><span></span><a  class="btn btn-info " tp="pdf"  href="' . base_url() . 'item/bill/' . $sid . '/' . $item->id . '" title="Print Barcode"  data-toggle="tooltip"><span class="glyphicon glyphicon glyphicon-print"></span></i></a>';
+            $row[] = $act;
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $this->input->post('draw'),
+            "recordsTotal" => $this->item->count_all(),
+            "recordsFiltered" => $this->item->count_filtered(),
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
+    }
+
+    public function ajax_list()
+    {
+        $this->item->where();
+        $list = $this->item->get_datatables();
+        //        print_r($list);
+        //$itemcount = $this->item->getledgeritem();
+        $data = array();
+        $no = $this->input->post('start');
+        foreach ($list as $item) {
+            $no++;
+            $itemcount = $this->item->getledgeritem($item->id);
+            //print_r($itemcount);
+            $row = array();
+            $row[] = $no;
+            $row[] = $item->barcode;
+            $row[] = $item->itemname;
+            $row[] = $item->category;
+            $row[] = $item->prate;
+            $row[] = $item->salerate;
+            $row[] = $item->open_stock;
+            $row[] = $item->total;
+            ///////////////////////////////////////////Barcode colmn hide//////////////////////////////////////////////////
+            //            if ($isbatch == 0) {
+            //                $row[] = $items->barcode;
+            //            }
+            //$row[] = $item->group_name;
+            //$row[] = $item->unit;
+            // $row[] = $item->tax;
+            $act = '<a  href="' . base_url() . 'inventory_item/Item/edit/' . $item->id . '" title="Edit" data-toggle="tooltip" class="btn btn-success"><span class="glyphicon glyphicon-edit"></span></a>
+                   <a  class="btn btn-info " tp="pdf"  href="' . base_url() . 'item/bill/' . $item->id . '" title="Print Barcode"  data-toggle="tooltip"><span class="glyphicon glyphicon glyphicon-print"></span></i></a>
+                  <a  href="' . base_url() . 'item/printlist/' . $item->id . '/' . $item->unit_id . '" title="Multiple Barcode" data-toggle="tooltip" class="btn btn-success"><span class="glyphicon glyphicon-modal-window"></span></a>
+<a  class="btn btn-info "  href="' . base_url() . 'item/view/' . $item->id . '" title="View"  data-toggle="tooltip"><span class="glyphicon glyphicon-eye-open"></span></i></a>';
+            if ($itemcount == 0) {
+                $act = $act . '&nbsp;<a tp="confirm" base="' . base_url() . '/item/listall/' . '"  success="Delete ' . $item->itemname . ' successfuly "  message="Do you want Delete ' . $item->itemname . '?"  href="' . base_url() . 'item/delete/' . $item->id . '" data-toggle="tooltip" title="Delete" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span></a>';
+            }
+            $row[] = $act;
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $this->input->post('draw'),
+            "recordsTotal" => $this->item->count_all(),
+            "recordsFiltered" => $this->item->count_filtered(),
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
+    }
+
+    function savebarcode()
+    {
+        $this->item->savebarcode();
+    }
+
+    function save()
+    {
+        $vdo_a = '';
+        if ($this->input->post('type_vid') == 'video') {
+            if (isset($_FILES['vidfile_a'])) {
+                $vidfile = $_FILES['vidfile_a'];
+                $exp = explode(".", $_FILES['vidfile_a']['name']);
+                $type = 'video';
+                //upload file  
+                $fileid = 'vidfile_a';
+                $vdo_a = time() . rand() . '.' . $exp[1];
+                $vdo_a = $this->itemuploads($vidfile, $type, $fileid, $vdo_a);
+            }
+        }
+        $this->item->save($vdo_a);
+    }
+
+
+    function itemuploads($file, $type, $fileid, $filename)
+    {
+        $config['upload_path'] = 'uploads/video/item/';
+        $config['allowed_types'] = '*';
+        $config['max_filename'] = '255';
+        $config['file_name'] = $filename;
+        $config['max_size'] = '102400'; //10 MB  
+        $this->load->library('upload', $config);
+        if ($this->upload->do_upload($fileid)) {
+            $uploaded_data = $this->upload->data();
+            $f_name = $uploaded_data['file_name'];
+            return $f_name;
+        } else {
+            return;
+        }
+    }
+
+    public function upload()
+    {
+        $cookie_str = '';
+        $target_dir = "uploads/images/item";
+        $target_file = $target_dir;
+        $image = '';
+        try {
+            $images = Slim::getImages();
+            $toplogo = $images[0];
+            $data = $toplogo['output']['data'];
+            $output = Slim::saveFile($data, $toplogo['output']['name'], $target_dir);
+            $image = $output['path'];
+            $file_name = $output['name'];
+            echo ($file_name);
+        } catch (Exception $e) {
+        }
+    }
+
+
+    function savefromexcel()
+    {
+        ini_set('max_execution_time', 300);
+        $this->item->savefromexcel();
+    }
+
+    function print_item_barcode($insert_id)
+    {
+        $this->load->library('M_pdf');
+        $this->m_pdf->load();
+        $pdf = $this->m_pdf->pdf;
+        $this->m_pdf->pdf->AddPageByArray([
+            'paper' => 'A4',
+            'margin-left' => 3,
+            'margin-right' => 0,
+            'margin-top' => 4,
+            'margin-bottom' => 0,
+        ]);
+        if ($this->language == 'ac') {
+            $pdf->SetDirectionality('rtl');
+        }
+        $barcode_data = $this->item->getbarcodebatch($insert_id);
+        $size = sizeof($barcode_data);
+        $data['size'] = $size;
+        $data['quantity'] = $barcode_data['0']['total'];
+        $data['barcode'] = $barcode_data;
+        $html = $this->load->view('items/multibarcode', $data, true);
+        $pdf->writeHTML($html);
+        $pdf->Output('example_021.pdf', 'I');
+    }
+
+    function printbarcode()
+    {
+        $insert_id = $this->item->printbarcode();
+        $this->barcodedata = $insert_id;
+        $response = array(
+            'valid' => false,
+            'type' => 1,
+            'bill' => base_url() . 'item/print_item_barcode/' . $insert_id,
+            'message' => 'Saved Successfully.'
+        );
+        echo json_encode($response);
+    }
+
+    function bill($id)
+    {
+        $this->load->library('M_pdf');
+        $this->m_pdf->param = ['mode' => 'utf-8', 'format' => array(76.2, 50.8), 'margin_bottom' => 0, 'autoPageBreak' => TRUE];
+        $this->m_pdf->load();
+        $pdf = $this->m_pdf->pdf;
+        $this->language = "ac";
+        $this->lang->load('ac_site', 'ac');
+        $com = $this->item->getCompany();
+        $pdf->SetDirectionality('rtl');
+        $data = $this->item->getpitem($id, 0)[0];
+        $html = '<style>
+            body{
+                font-family: sans-serif;
+            }</style><p style="text-align:center;margin-top: 0px;margin-bottom: 0px;"><font style="font-size:15px;font-weight:bold;" >' . $com['name'] . '</font><br><barcode style="width: 50%;" code="' . $data['barcode'] . '" size=".7" type="C39" height="1.5" text="1" /> <font style="font-size:20px;font-weight:bold;" >'
+            . $data['barcode'] . '</font><br /><font style="font-size:16px;font-weight:bold;" >' . $data['name'] . '</font><br /><font style="font-size:16px;font-weight:bold;" >Salerate:' . $data['srate'] . '</font></p>';
+        $pdf->writeHTML($html);
+        $pdf->Output('example_021.pdf', 'I');
+    }
+
+    public function _callback_name($value, $row)
+    {
+        if ($row->name_lan == '') {
+            return $row->name;
+        } else {
+            return $row->name_lan;
+        }
+    }
+
+    public function racks()
+    {
+        try {
+
+            $crud = new grocery_CRUD();
+            $crud->set_theme('datatables');
+            $crud->set_table('item_racks_master');
+            $crud->set_subject(label('Racks', $this, $this->user));
+            $crud->required_fields('name', 'rows');
+            $crud->columns('name', 'rows');
+            $crud->unique_fields('name');
+            $crud->display_as('name', 'Name');
+            if ($this->multiple == 0) {
+                $crud->fields('name', 'rows');
+            } else {
+                if ($this->language != 'en') {
+                    $crud->columns('name_lan', 'rows');
+                    $crud->callback_column('name_lan', array($this, '_callback_name'));
+                }
+            }
+            $columns = array('name', 'rows', 'name_lan');
+            foreach ($columns as $column) {
+                $crud->display_as($column, label($column, $this, $this->user));
+            }
+            $output = $crud->render();
+            $this->load->view('masters/masters', $output);
+        } catch (Exception $e) {
+            show_error($e->getMessage() . ' --- ' . $e->getTraceAsString());
+        }
+    }
+
+    public function excel()
+    {
+        $this->load->view('_blocks/subpages/create');
+        $data['page'] = 'item';
+        $data['title'] = 'Item';
+        $data['mymsg'] = '';
+        $this->load->view('excelupload', $data);
+    }
+
+    function excelToArray($filePath, $header = true)
+    {
+        //Create excel reader after determining the file type
+        $inputFileName = $filePath;
+        /**  Identify the type of $inputFileName  * */
+        $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
+        /**  Create a new Reader of the type that has been identified  * */
+        $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+        /** Set read type to read cell data onl * */
+        $objReader->setReadDataOnly(true);
+        /**  Load $inputFileName to a PHPExcel Object  * */
+        $objPHPExcel = $objReader->load($inputFileName);
+        //Get worksheet and built array with first row as header
+        $objWorksheet = $objPHPExcel->getActiveSheet();
+        //excel with first row header, use header as key
+        if ($header) {
+            $highestRow = $objWorksheet->getHighestRow();
+            $highestColumn = $objWorksheet->getHighestColumn();
+            $headingsArray = $objWorksheet->rangeToArray('A1:' . $highestColumn . '1', null, true, true, true);
+            $headingsArray = $headingsArray[1];
+            $r = -1;
+            $namedDataArray = array();
+            for ($row = 2; $row <= $highestRow; ++$row) {
+                $dataRow = $objWorksheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, null, true, true, true);
+                //                if ((isset($dataRow[$row]['A'])) && ($dataRow[$row]['A'] > '')) {
+                ++$r;
+                foreach ($headingsArray as $columnKey => $columnHeading) {
+                    $namedDataArray[$r][$columnHeading] = $dataRow[$row][$columnKey];
+                }
+                //                }
+            }
+        } else {
+            //excel sheet with no header
+            $namedDataArray = $objWorksheet->toArray(null, true, true, true);
+        }
+        return $namedDataArray;
+    }
+
+    public function Upload_ExcelData()
+    {
+
+        $config['upload_path'] = 'uploads/excel';
+        $config['allowed_types'] = '*';
+        $config['max_filename'] = '255';
+        //$config['encrypt_name'] = TRUE;
+        $config['max_size'] = '1024'; //1 MB
+        $this->load->library('upload', $config);
+        $this->upload->do_upload('file');
+        $upload_data = $this->upload->data(); //Returns array of containing all of the data related to the file you uploaded.
+        $file_name = $upload_data['file_name']; //uploded file name
+        $extension = $upload_data['file_ext'];
+        $table_name = $this->input->post('table_name');
+        $data['table_name'] = $table_name;
+        $data['file_name'] = $file_name;
+
+
+        $this->load->view('_blocks/subpages/create');
+        $this->load->view('_blocks/subpages/list');
+        $this->load->view('items/listall_exceldata', $data);
+    }
+
+    public function list_excel($filename, $table_name)
+    {
+        $array1 = $this->excelToArray(FCPATH . 'uploads/excel/' . $filename);
+        //        foreach ($array1 as $item) {
+        //            $item1 = json_encode($item, JSON_UNESCAPED_UNICODE);
+        //            $data1 = array(
+        //                'val' => $item1
+        //            );
+        //            $this->db->insert('new', $data1);
+        //        }
+        $objReader = PHPExcel_IOFactory::createReader('Excel2007'); // For excel 2007     
+        //Set to read only
+        $objReader->setReadDataOnly(true);
+        //Load excel file
+        $objPHPExcel = $objReader->load(FCPATH . 'uploads/excel/' . $filename);
+
+        $totalrows = $objPHPExcel->setActiveSheetIndex(0)->getHighestRow();   //Count Numbe of rows avalable in excel  
+        $HighestColumn = $objPHPExcel->setActiveSheetIndex(0)->getHighestColumn();   //Count Numbe of rows avalable in excel  
+        if ($totalrows > 5000) {
+        }
+        //$totalcol = $objPHPExcel->setActiveSheetIndex(0);   //Count Numbe of rows avalable in excel  
+        $objWorksheet = $objPHPExcel->setActiveSheetIndex(0);
+
+        $objPHPExcel->setActiveSheetIndex(0);
+        // $sheet = $objPHPExcel->getActiveSheet();
+        $sheet = $objPHPExcel->getActiveSheet()->rangeToArray('A1:' . $HighestColumn . '' . $totalrows . '', NULL, True, True);
+
+        $inc = 0;
+        $count = $col = 0;
+        $selectoptions = $this->item->gettablefields($table_name);
+        $i = 0;
+        foreach ($sheet as $column) {
+            $i++;
+            if ($i == 1) {
+                echo '<tr>';
+                $j = 0;
+                $m = 0;
+                $leng = sizeof($column);
+                for ($k = 0; $k < $leng; $k++) {
+                    $m++;
+                    echo '<th>';
+                    echo '<select name="colselect_' . $m . '" class="form-control" style="width : 200px;">"' . $selectoptions . '"</select></th>';
+                }
+                echo '</tr>';
+            }
+
+            echo '<tr>';
+            $j = 0;
+            $m = 0;
+            $leng = sizeof($column);
+            for ($k = 0; $k < $leng; $k++) {
+                $m++;
+                if ($i < 2) {
+                    echo '<td>';
+                    echo '<input type="hidden" name="txtt_' . $m . '_' . $i . '" value="' . $column[$k] . '" />' . $column[$k];
+                    echo '</td>';
+                    $count = $i;
+                    $col = $m;
+                } else {
+                    echo '<td>';
+                    echo '<input type="hidden" name="txt_' . $m . '_' . $i . '" value="' . $column[$k] . '" />' . $column[$k];
+                    echo '</td>';
+                    $count = $i;
+                    $col = $m;
+                }
+            }
+            echo '</tr>';
+        }
+
+
+
+
+        // foreach($sheet->getRowIterator() as $row)
+        // {
+        //     $inc++;
+        //        if($inc==1){
+        //             echo '<tr>';
+        //         $nc=0;
+        //         foreach($row->getCellIterator() as $key => $cell)
+        //     {
+        //          if ($cell->getCalculatedValue()!=''){
+        //               $nc++;
+        //             echo '<th>';
+        //             echo '<select name="colselect_'. $nc.'" class="form-control" style="width : 200px;">"'.$selectoptions.'"</select></th>';
+        //         }
+        //         }
+        //         echo '</tr>';
+        //             }
+        //           echo '<tr>';
+        //            $nc=0;
+        //     foreach($row->getCellIterator() as $key => $cell)
+        //     {
+        //         $nc++;
+        //         //echo $key; // 0, 1, 2...
+        //         // if ($cell->getCalculatedValue()!=''){
+        //         if($inc<2){
+        //              echo '<td>';
+        //             echo '<input type="hidden" name="txtt_'.$nc. $inc.'" value="'. $cell->getCalculatedValue().'" />' . $cell->getCalculatedValue(); 
+        //                    echo '</td>';
+        //                    $count=$inc;
+        //                    $col=$nc;
+        //         }
+        //          else
+        //            { echo '<td>';
+        //                        echo '<input type="hidden" name="txt_'.$nc. $inc.'" value="'. $cell->getCalculatedValue().'" />' . $cell->getCalculatedValue(); 
+        //                               echo '</td>';
+        //                               $count=$inc;
+        //                               $col=$nc;}
+        //         // }
+        //     }
+        //         echo '</tr>';
+        // }
+
+        echo ' <input type="hidden" name="counttotal" value="' . $count . '">';
+        echo ' <input type="hidden" name="countcol" value="' . $col . '">';
+        //loop from first data untill last data
+
+        /*  $no = $this->input->post('start');
+          for ($i = 2; $i <= $totalrows; $i++) {
+          $no++;
+          $row = array();
+          $row[] = $no;
+          $row[] = $objWorksheet->getCellByColumnAndRow(0, $i)->getValue();
+          $row[] = $objWorksheet->getCellByColumnAndRow(0, $i)->getValue();
+          $row[] = $objWorksheet->getCellByColumnAndRow(0, $i)->getValue();
+          $row[] = $objWorksheet->getCellByColumnAndRow(0, $i)->getValue();
+          $row[] = $objWorksheet->getCellByColumnAndRow(0, $i)->getValue();
+          $row[] = $objWorksheet->getCellByColumnAndRow(0, $i)->getValue();
+
+
+          $row[] = '';
+          $data[] = $row;
+          }
+          $output = array(
+          "draw" => $this->input->post('draw'),
+          "recordsTotal" => $this->item->count_all(),
+          "recordsFiltered" => $this->item->count_filtered(),
+          "data" => $data,
+          );
+          //output to json format
+          echo json_encode($output); */
+    }
+
+    public function ExcelDataAdd()
+    {
+        //upload file
+        $config['upload_path'] = 'uploads/excel';
+        $config['allowed_types'] = '*';
+        $config['max_filename'] = '255';
+        //$config['encrypt_name'] = TRUE;
+        $config['max_size'] = '1024'; //1 MB
+        $this->load->library('upload', $config);
+        $this->upload->do_upload('file');
+        $upload_data = $this->upload->data(); //Returns array of containing all of the data related to the file you uploaded.
+        $file_name = $upload_data['file_name']; //uploded file name
+        $extension = $upload_data['file_ext'];
+        //echo 'File successfully uploaded : uploads/excel' . $_FILES['file']['name'];
+        //$objReader =PHPExcel_IOFactory::createReader('Excel5');     //For excel 2003 
+        $objReader = PHPExcel_IOFactory::createReader('Excel2007'); // For excel 2007     
+        //Set to read only
+        $objReader->setReadDataOnly(true);
+        //Load excel file
+        $objPHPExcel = $objReader->load(FCPATH . 'uploads/excel/' . $file_name);
+        $totalrows = $objPHPExcel->setActiveSheetIndex(0)->getHighestRow();   //Count Numbe of rows avalable in excel         
+        $objWorksheet = $objPHPExcel->setActiveSheetIndex(0);
+        //loop from first data untill last data
+        for ($i = 2; $i <= $totalrows; $i++) {
+            $name = $objWorksheet->getCellByColumnAndRow(0, $i)->getValue();
+            $barcode = $objWorksheet->getCellByColumnAndRow(1, $i)->getValue(); //Excel Column 1
+            $price_code = $objWorksheet->getCellByColumnAndRow(2, $i)->getValue(); //Excel Column 2
+            $item_category = $objWorksheet->getCellByColumnAndRow(3, $i)->getValue(); //Excel Column 3
+            $item_group = $objWorksheet->getCellByColumnAndRow(4, $i)->getValue(); //Excel Column 4
+            $unit = $objWorksheet->getCellByColumnAndRow(5, $i)->getValue(); //Excel Column 5
+            $open_stock = $objWorksheet->getCellByColumnAndRow(6, $i)->getValue(); //Excel Column 6
+            $current_stock = $objWorksheet->getCellByColumnAndRow(7, $i)->getValue(); //Excel Column 7
+            $reorder_point = $objWorksheet->getCellByColumnAndRow(8, $i)->getValue(); //Excel Column 8
+            $prate = $objWorksheet->getCellByColumnAndRow(9, $i)->getValue(); //Excel Column 9
+            $srate = $objWorksheet->getCellByColumnAndRow(10, $i)->getValue(); //Excel Column 10
+            $MRP = $objWorksheet->getCellByColumnAndRow(11, $i)->getValue(); //Excel Column 11
+            $commission = $objWorksheet->getCellByColumnAndRow(12, $i)->getValue(); //Excel Column 12
+            $tax = $objWorksheet->getCellByColumnAndRow(13, $i)->getValue(); //Excel Column 13
+            $hsn = $objWorksheet->getCellByColumnAndRow(14, $i)->getValue(); //Excel Column 14
+            $item_type = $objWorksheet->getCellByColumnAndRow(15, $i)->getValue(); //Excel Column 15
+            $godown = $objWorksheet->getCellByColumnAndRow(16, $i)->getValue(); //Excel Column 16
+            $date = date("Y-m-d");
+            $getcategorycount = $this->item->getidcount('item_category', $item_category); // check if item category exists
+            if ($getcategorycount > 0) {
+                $getcategoryid = $this->item->getid('item_category', $item_category); // get category id from name
+                foreach ($getcategoryid as $item) {
+                    $item_category_id = $item->id;
+                }
+            } else {
+                $item_category_id = 1;
+            }
+            $getgroupcount = $this->item->getidcount('item_group', $item_group); // check if item group exists
+            if ($getgroupcount > 0) {
+                $getgroupid = $this->item->getid('item_group', $item_group); // get group id from name
+                foreach ($getgroupid as $item) {
+                    $item_group_id = $item->id;
+                }
+            } else {
+                $item_group_id = 1;
+            }
+            $getunitcount = $this->item->getidcount('units', $unit); // check if unit exists
+            if ($getunitcount != 0) {
+                $getunitid = $this->item->getid('units', $unit); // get unit id from name
+
+                foreach ($getunitid as $item) {
+                    $unit_id = $item->id;
+                }
+            } else {
+                $unit_id = 1;
+            }
+            $gettaxcount = $this->item->gettaxcount($tax); // check if tax exists
+            if ($gettaxcount != 0) {
+                $gettaxid = $this->item->gettaxid($tax); // get tax id from name
+
+                foreach ($gettaxid as $item) {
+                    $tax_id = $item->gstid;
+                }
+            } else {
+                $tax_id = 1;
+            }
+            $gethsncount = $this->item->gethsncount($hsn); // check if tax exists
+            if ($gethsncount != 0) {
+                $gethsnid = $this->item->gethsnid($hsn); // get tax id from name
+
+                foreach ($gethsnid as $item) {
+                    $hsncode = $item->hsnid;
+                }
+            } else {
+                $hsncode = 1;
+            }
+
+            $gettypecount = $this->item->getidcount('item_type', $item_type); // check if item group exists
+
+            if ($gettypecount > 0) {
+                $gettypeid = $this->item->getid('item_type', $item_type); // get group id from name
+                foreach ($gettypeid as $item) {
+                    $item_type_id = $item->id;
+                }
+            } else {
+                $item_type_id = 1;
+            }
+
+            $getitemcount = $this->item->getitemcount($name); // check if item exists
+            if ($getitemcount > 0) {
+                echo $getitemcount;
+            } else {
+                $data_item = array('name' => $name, 'barcode' => $barcode, 'price_code' => $price_code, 'item_category_id' => 1, 'item_group_id' => 1, 'unit_id' => 1, 'open_stock' => $open_stock, 'current_stock' => $current_stock, 'reorder_point' => $reorder_point, 'min_level' => 1, 'max_level' => 10, 'rack' => 0, 'prate' => $prate, 'srate' => $srate, 'wh_rate' => 0, 'MRP' => $MRP, 'open_stk_rate' => 1, 'commission' => $commission, 'tax_ledger_id' => 1, 'tax_sales_id' => 1, 'tax_purchase_id' => 1, 'hsncode' => 1, 'item_type_id' => 1, 'godown' => $godown, 'description' => 'test');
+                $this->item->Add_item($data_item);
+            }
+            //print_r($data_item);
+            //$this->itemexcel->Add_item($data_item);
+            //$insert_id = $this->db->insert_id();
+            /* $data_ledger=array('item_id'=>$insert_id, 'open_stock'=>$open_stock,'quantity'=>$current_stock,' trans_date'=>$date,'trans_type'=>'cr','trans_status'=>'sales','trans_id'=>1,'rate'=>$prate,'MRP'=>$MRP,'tax_id'=>$tax_id,'godown'=>$godown);
+              $this->itemexcel->Add_item_ledger($data_ledger); */
+        }
+        unlink('././uploads/excel/' . $file_name); //File Deleted After uploading in database .           
+        //redirect(base_url() . "dashboard/main");
+    }
+
+    /*
+  | -------------------------------------------------------------------
+  |  Auto-load Packages
+  | -------------------------------------------------------------------
+  | Prototype:
+  |
+  |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
+  |
+  */
+
+    public function item_size_list()
+    {
+        $this->item->item_size_list();
+        $list = $this->item->get_datatables();
+        //        print_r($list);
+        //$itemcount = $this->item->getledgeritem();
+        $data = array();
+        $no = $this->input->post('start');
+        foreach ($list as $item) {
+            $no++;
+            $itemcount = $this->item->getledgeritem($item->id);
+            //print_r($itemcount);
+            $row = array();
+            $row[] = $no;
+
+            $row[] = substr($item->date, 0, 10);
+            $row[] = $item->sizes;
+            $row[] = $item->note;
+            $act = '<a  href="' . base_url() . 'item/addItemSize/' . $item->id . '" title="Edit" data-toggle="tooltip" class="btn btn-success"><span class="glyphicon glyphicon-edit"></span></a>
+                    <a tp="confirm" base="' . base_url() . '/item/getItemSize/' . '"  success="Delete ' . $item->sizes . ' successfuly "  message="Do you want Delete ' . $item->sizes . '?"  href="' . base_url() . 'item/deleteSize/' . $item->id . '" data-toggle="tooltip" title="Delete" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span></a>';
+            $row[] = $act;
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $this->input->post('draw'),
+            "recordsTotal" => $this->item->count_all(),
+            "recordsFiltered" => $this->item->count_filtered(),
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
+    }
+
+    public function item_color_list()
+    {
+        $this->item->item_color_list();
+        $list = $this->item->get_datatables();
+        //        print_r($list);
+        //$itemcount = $this->item->getledgeritem();
+        $data = array();
+        $no = $this->input->post('start');
+        foreach ($list as $item) {
+            $no++;
+            $row = array();
+            $row[] = $no;
+
+            $row[] = substr($item->date, 0, 10);
+            $row[] = $item->colors;
+            $row[] = $item->note;
+            $act = '<a  href="' . base_url() . 'item/addItemColor/' . $item->id . '" title="Edit" data-toggle="tooltip" class="btn btn-success"><span class="glyphicon glyphicon-edit"></span></a>
+                    <a tp="confirm" base="' . base_url() . '/item/getItemColor/' . '"  success="Delete ' . $item->colors . ' color successfuly "  message="Do you want Delete ' . $item->colors . ' color ?"  href="' . base_url() . 'item/deleteColor/' . $item->id . '" data-toggle="tooltip" title="Delete" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span></a>';
+            $row[] = $act;
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $this->input->post('draw'),
+            "recordsTotal" => $this->item->count_all(),
+            "recordsFiltered" => $this->item->count_filtered(),
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
+    }
+
+    public function production_stock_list()
+    {
+        $this->item->production_stock_list();
+        $list = $this->item->get_datatables();
+        //        print_r($list);
+        //$itemcount = $this->item->getledgeritem();
+        $data = array();
+        $no = $this->input->post('start');
+        foreach ($list as $item) {
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = substr($item->date, 0, 10);
+            $row[] = $item->gname;
+            $row[] = $item->itemname;
+            $row[] = $item->MRP;
+            $row[] = $item->sname;
+            $row[] = $item->cname;
+            $row[] = $item->comment;
+            $act = '<a  href="' . base_url() . 'item/addProductionStock/' . $item->id . '" title="Edit" data-toggle="tooltip" class="btn btn-success"><span class="glyphicon glyphicon-edit"></span></a>
+                    <a tp="confirm" base="' . base_url() . '/item/getProductionStock/' . '"  success="Delete ' . $item->itemname . 'successfuly "  message="Do you want Delete ' . $item->itemname . '?"  href="' . base_url() . 'item/deleteProduction/' . $item->id . '" data-toggle="tooltip" title="Delete" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span></a>';
+            $row[] = $act;
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $this->input->post('draw'),
+            "recordsTotal" => $this->item->count_all(),
+            "recordsFiltered" => $this->item->count_filtered(),
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
+    }
+}

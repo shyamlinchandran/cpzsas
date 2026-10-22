@@ -1,0 +1,206 @@
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+/*
+ */
+
+/**
+ *
+ * @author dimind
+ */
+class Marriage_register extends MY_Controller {
+
+    public function __construct() {
+        parent::__construct();
+        $this->load->model('church/marriage_model', 'item');
+    }
+
+    public function listall() {
+        $data['title'] = 'Marriage Register';
+        $this->load->view('_blocks/subpages/create');
+        $this->load->view('_blocks/subpages/list');
+        //$get_headname = $this->item->familymain($head_id);
+        //$data['headname'] = $get_headname;
+        $data['head_id'] = 0;
+
+        $this->load->view('church/marriage/list_all', $data);
+    }
+
+    function create($id = '0') {
+        $this->load->view('_blocks/subpages/create');
+        $parish = $this->item->parish();
+        $diocese = $this->item->diocese();
+        $data['parish'] = $parish;
+        $data['diocese'] = $diocese;
+        $data['id'] = $id;
+        $data['title'] = 'marriage create';
+        $data['type'] = '';
+        $data['view'] = "create";
+
+        $this->load->view('church/marriage/create', $data);
+    }
+
+    public function getparents($head_id) {
+        return $this->item->getparents($head_id);
+    }
+
+    public function getfathers() {
+        return $this->item->getfathers();
+    }
+
+    public function family_name() {
+        $search = strtolower($_GET['term']);
+        return $this->item->family_name($search);
+    }
+
+    function getsing($id) {
+        $this->item->getsing($id);
+    }
+
+    function edit($id) {
+        $this->load->view('_blocks/subpages/create');
+        $parish = $this->item->parish();
+        $diocese = $this->item->diocese();
+        $data['parish'] = $parish;
+        $data['diocese'] = $diocese;
+        $data['id'] = $id;
+        $data['title'] = 'Marriage edit';
+        $data['type'] = '';
+        $data['view'] = "edit";
+
+        $this->load->view('church/marriage/create', $data);
+    }
+
+    function view($id, $head_id) {
+        $this->load->view('_blocks/subpages/create');
+        $parish = $this->item->parish();
+        $diocese = $this->item->diocese();
+        $data['parish'] = $parish;
+        $data['diocese'] = $diocese;
+        $data['id'] = $id;
+        $data['title'] = 'Marriage View';
+        $data['type'] = 'cus';
+        $data['view'] = "view";
+        $this->load->view('church/marriage/create', $data);
+    }
+
+    public function delete($id) {
+        $this->item->delete($id);
+    }
+
+    public function ajax_list() {
+        //$this->item->where($head_id);
+        $list = $this->item->get_datatables();
+        //$itemcount = $this->item->getledgeritem();
+        $data = array();
+        $no = $this->input->post('start');
+        $type = $this->input->post('type');
+        foreach ($list as $item) {
+            $no++;
+            //$itemcount = $this->item->getledgeritem($item->id);
+            $row = array();
+            $row[] = $no;
+            $row[] = $item->weddate;
+            $row[] = $item->familyadtl;
+            $row[] = $item->bridegrname;
+            $row[] = $item->houseaname;
+            $row[] = $item->familybdtl;
+            $row[] = $item->bridename;
+            $row[] = $item->housebname;
+            $act = '<a  href="' . base_url() . 'church/marriage_register/edit/' . $item->mrg_id . '" title="Edit" data-toggle="tooltip" class="btn btn-success"><span class="glyphicon glyphicon-edit"></span></a>
+                <a  class="btn btn-info " tp="pdf"  href="' . base_url() . 'church/marriage_register/printcertificate/' . $item->mrg_id . '" title="Print"  data-toggle="tooltip"><span class="glyphicon glyphicon glyphicon-print"></span></i></a>
+                   <a  class="btn btn-info "  href="' . base_url() . 'church/marriage_register/view/' . $item->mrg_id . '" title="View"  data-toggle="tooltip"><span class="glyphicon glyphicon-eye-open"></span></i></a>';
+            $act = $act . '&nbsp;<a tp="confirm" base="' . base_url() . '/church/marriage_register/listall' . '"  success="Delete ' . $item->witnessa . ' successfuly "  message="Do you want Delete ' . $item->witnessb . '?"  href="' . base_url() . 'church/marriage_register/delete/' . $item->mrg_id . '" data-toggle="tooltip" title="Delete" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span></a>';
+            $row[] = $act;
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $this->input->post('draw'),
+            "recordsTotal" => $this->item->count_all(),
+            "recordsFiltered" => $this->item->count_filtered(),
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
+    }
+    function save() {
+        $this->item->save();
+    }
+
+    public function printcertificate($mrg_id) {
+        $data['married'] = $this->item->getmarriage_dtls($mrg_id);
+        $this->load->library('Pdf');
+        $pdf = new Pdf('p', 'mm', 'A4', false, 'UTF-8', false);
+        $com = $this->item->getCompany();
+        $data['company'] = $com;
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor($com['name']);
+        $pdf->SetTitle($com['name']);
+        $pdf->SetSubject($com['name']);
+        $pdf->SetMargins(5, 0, 5, 0);
+        $pdf->SetAutoPageBreak(TRUE, 0);
+        $pdf->setCellPaddings(5, 0, 0, 5);
+        $pdf->AddPage('L', 'A4');
+        $html = $this->load->view('church/marriage/bill', $data, true);
+        $pdf->Image(FCPATH . 'assets/images/pi5rK4pyT.png', 0, 0, 297, 210, '', '', '', false, 300, '', false, false, 0);
+        $pdf->writeHTML($html);
+        ob_end_clean();
+        $pdf->Output('example_021.pdf', 'I');
+    }
+
+//    public function printcertificate($mrg_id) {
+//         $data['married'] = $this->item->getmarriage_dtls($mrg_id);
+//        $this->load->view('church/marriage/bill',$data);
+//        //$this->generateBill($mrg_id);
+//    }
+    /* private function generateBill($id) {
+      $size = 15;
+      $this->load->library('Pdf');
+      $pdf = new Pdf('P', 'mm', 'A4', false, 'UTF-8', false);
+      $pdf->setPrintHeader(false);
+      $pdf->setPrintFooter(false);
+      $pdf->SetCreator(PDF_CREATOR);
+      $marriage = $this->item->getmarriage_dtls($id);
+      $com = $this->item->getCompany();
+      $pdf->SetAuthor($com['name']);
+      $pdf->SetTitle($com['name']);
+      $pdf->SetSubject($com['name']);
+      $img_file = base_url() . 'assets/images/Desert.jpg';
+      //   $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+      $pdf->SetMargins(5, 0, 5, 0);
+      $pdf->SetAutoPageBreak(TRUE, 0);
+      $len = 1;
+      $papersiize = $this->item->getValue('paper');
+      if ($papersiize == 'A4') {
+      if ($size == 'half') {
+      $size = 8;
+      }
+      if ($size == 'full') {
+      $size = 38;
+      }
+      }
+
+      $this->pages1($pdf, $img_file, $size, $len, $marriage);
+      //ob_end_clean();
+      $pdf->Output('example_021.pdf', 'I');
+      }
+
+      function pages1($pdf, $img_file, $size, $len, $marriage) {
+      $pdf->setCellPaddings(0, 0, 0, 0);
+      $papersiize = $this->item->getValue('paper');
+      $paperorient = $this->item->getValue('paperorient');
+      $pdf->AddPage($paperorient, $papersiize);
+      //$data['institution'] = $details['institution'];
+      $data['date'] = getdate();
+      $data['size'] = $size;
+      $data['len'] = $len;
+      $data['company'] = $this->item->getCompany();
+      $data['married'] = $marriage;
+      // print_r($data);
+      $html = $this->load->view('church/marriage/bill', $data, true);
+      $pdf->writeHTML($html);
+      // $pdf->Image($img_file, 110, 90, 40, 29);
+      } */
+}
