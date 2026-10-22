@@ -1,0 +1,6 @@
+[24-Jan-2019 14:05:13 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/dimsappco/public_html/system/database/drivers/mysqli/mysqli_driver.php on line 305
+[25-Jan-2019 09:02:37 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/dimsappco/public_html/system/database/DB_driver.php on line 698
+[26-Jan-2019 05:56:25 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/dimsappco/public_html/system/database/DB_driver.php on line 761
+[26-Jan-2019 05:58:14 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/dimsappco/public_html/system/database/drivers/mysqli/mysqli_driver.php on line 305
+[26-Jan-2019 05:58:21 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/dimsappco/public_html/system/database/drivers/mysqli/mysqli_driver.php on line 305
+[26-Jan-2019 05:59:49 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/dimsappco/public_html/application/models/Ajax_model.php on line 301

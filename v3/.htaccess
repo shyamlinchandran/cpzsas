@@ -1,0 +1,11 @@
+RewriteEngine on
+RewriteCond $1 !^(index\.php|resources|robots\.txt)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+php_value memory_limit 2500M
+php_value post_max_size 10000M
+php_value upload_max_filesize 30000M
+php_value max_input_vars 16000
+php_value suhosin.post.max_vars 160000
+php_value suhosin.request.max_vars 160000

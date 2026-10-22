@@ -1,0 +1,19 @@
+{
+    "name": "3li3bdalla/tafqeet",
+    "description": "convert numbers into arabic words",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "3li3bdalla",
+            "email": "ali.dev.sd@gmail.com"
+        }
+    ],
+    "minimum-stability": "alpha",
+    "require": {},
+     "autoload": {
+        "psr-4": {
+            "AliAbdalla\\Tafqeet\\Helper\\": "src/helper",
+            "AliAbdalla\\Tafqeet\\Core\\": "src/core"
+        }
+    }
+}
