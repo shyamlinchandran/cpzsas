@@ -1,0 +1,263 @@
+<?php
+$customer = '';
+
+?> 
+<form method="post"  id="frmcreate" back="<?php echo site_url('Itemtype/listall'); ?>" action="<?php echo site_url('Itemtype/save_Itemtype'); ?>"  class="form-horizontal">
+    <input type="hidden" value="<?= $id ?>" name="id" id="id" />
+    <section class="content"> 
+        <div class="row">
+            <div class="col-xs-12"> 
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><?= label('Item Type List', $this, $user) ?> Create</h3>
+                        <span class="pull-right">
+                            <a role="button" back="<?php echo site_url('Itemtype/listall'); ?>" class="btn  btn-success align-bottom" href="<?php echo site_url('Itemtype/listall'); ?>">
+                                <span class="glyphicon glyphicon-arrow-left" title="back"></span> 
+                            </a>
+                        </span>
+                    </div> 
+                    <div class="box-body">
+                        <div class="col-sm-12">
+                            <div class="col-sm-4  odd_cls">
+                                <label class="col-sm-4 control-label" >
+                                    <?= label('Name', $this, $user) ?> *<span class="required"></span> :
+                                </label>
+                                <div class="col-sm-8" >
+                                    <input <?php  if(isset($details['name'])){ echo "value='".$details['name']."'";}?> id="name" class="form-control" name="name" type="text"
+                                           value="" data-validation="required" maxlength="250">
+                                </div>
+                            </div>
+                             <div class="col-sm-4  odd_cls">
+                                <label class="col-sm-4 control-label" >
+                                    <?= label('Description', $this, $user) ?> *<span class="required"></span> :
+                                </label>
+                                <div class="col-sm-8" >
+                                    <input <?php  if(isset($details['description'])){ echo "value='".$details['description']."'";}?> id="description" class="form-control" name="description" type="text"
+                                           value="" data-validation="required" maxlength="250">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-6 form-group  odd_cls">
+                            <table class="table table-bordered">
+                               <tr>
+									<th>  <?= label('Name', $this, $user) ?></th>
+									<th>  <?= label('Description', $this, $user) ?></th>
+									<th>  <?= label('Add', $this, $user) ?></th>
+							   </tr>
+                                <tr>
+                                    <td> 
+										<input type="hidden" value="0" name="itemtypevalueid" id="itemtypevalueid"/>
+                                        <input id="itemtypevalue" class="form-control" name="itemtypevalue" type="text" value=""  placeholder="<?= label('Name', $this, $user) ?>" maxlength="250">
+                                    </td>  
+                                    <td>
+                                        <input id="valdescription" class="form-control" name="valdescription" type="text" value=""  placeholder="<?= label('Description', $this, $user) ?>" maxlength="250">
+                                    </td>
+                                    <td> 
+                                        <button data-toggle="tooltip" type="button"  id="addmore"  title="Add To save"   class="btn btn-success" href="#">
+                                            Add 
+                                        </button>
+                                    </td>
+                               
+
+
+                                </tr>
+                            </table>
+							
+                        </div>
+                        <div  style="padding-top :50px;" class="col-sm-12 form-group  odd_cls">
+						  <table  id="vtable"  class="table <?=$this->table_color?>" cellspacing="0" width="100%">
+                            <thead>
+                                 <tr>
+									<th>  <?= label('No.', $this, $user) ?></th>
+									<th>  <?= label('Name', $this, $user) ?></th>
+									<th>  <?= label('Description', $this, $user) ?></th>
+									<th>  <?= label('Add', $this, $user) ?></th>
+							   </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            </table>
+						
+						</div>
+
+                        <!-- /.box -->
+                    </div>
+                    <div class="box-footer" class="col-sm-12">
+                        <button  id="form-button-save"  type='submit' data-toggle="tooltip"   title='Save' class='btn bg-orange btn-flat'> <i class="glyphicon glyphicon-hdd"></i> </button>         
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.col -->
+
+        <!-- /.row -->
+    </section>
+    <script type="text/javascript">
+		 $.validate({
+            modules: 'security'
+         });
+		var table;
+		var table_id = 0;
+		var now = new Date();
+		var jsDate = now.getDate() + '-' + (now.getMonth() + 1) + '-' + now.getFullYear();
+		$(document).on('change', '#sales_rate,#discount', function(){
+			var sales_rate = $('#sales_rate').val();
+			var discount = $('#discount').val();
+			var discount_amount = 0;
+			var rate = sales_rate;
+			if(sales_rate === ""){
+				sales_rate = 0;
+			}
+			if(discount === ""){
+				discount = 0;
+			}
+			if(parseFloat(sales_rate) >0 && parseFloat(discount) > 0 ){
+				discount_amount = parseFloat(sales_rate) * parseFloat(discount) / 100;
+				rate = parseFloat(rate) - parseFloat(discount_amount);
+			}
+			$('#discount_amount').val(discount_amount);
+			$('#item_rate').val(rate);
+		});
+		$(document).on('change', '#discount_amount', function(){
+			var sales_rate = $('#sales_rate').val();
+			var discount_amount = $('#discount_amount').val();
+			if(sales_rate === "" ){
+				sales_rate = 0;
+			}
+			if(discount_amount ===""){
+				discount_amount = 0;
+			}
+			var rate = sales_rate;
+			var discount = 0;
+			if(parseFloat(discount_amount)>0 && parseFloat(sales_rate)>0){
+				discount = parseFloat(((discount_amount * 100) / (sales_rate)));
+				rate = parseFloat(sales_rate)-parseFloat(discount_amount);
+			}
+			$('#item_rate').val(rate);
+			$('#discount').val(discount.toFixed(2));
+
+		});
+		
+		$(document).on('keydown', '#discount_amount', function(e){
+            var key = e.charCode || e.keyCode || 0;
+            if (key === 13 || key === 9){
+				$('#addmore').trigger('click');
+			}
+		});
+		
+        $(document).ready(function () {
+			table = $('#vtable').DataTable({
+             "language": lan,"processing": true, //Feature control the processing indicator.
+            "serverSide": true, //Feature control DataTables' server-side processing mode.
+            "order": [], //Initial no order.
+
+            // Load data for the table's content from an Ajax source
+            "ajax": {
+                "url": "<?php echo site_url('Itemtype/item_list') ?>",
+                "type": "POST",
+                "data": function (data) {
+                    data.id = $('#id').val();
+                    
+                }
+            },
+            //Set column definition initialisation properties.
+            "columnDefs": [
+                {
+                    "targets": [0], //first column / numbering column
+                    "orderable": false //set not orderable
+                }]
+
+        });
+            $("#cusname").autocomplete({
+                source: "<?php echo site_url('ajaxcall/suppliers'); ?>",
+                minLength: 2,
+                select: function (event, ui) {
+                    $('#customer_id').val(ui.item.id);
+
+                }
+            });
+            $("#product_name").autocomplete({
+                source: "<?php echo site_url('ajaxcall/items'); ?>",
+                minLength: 2,
+                select: function (event, ui) {
+					$('#product_id').val(ui.item.id);
+                    var sales_rate = ui.item.srate;
+					var discount = ui.item.dis;
+					var discount_amount = 0 ;
+					var rate = sales_rate;
+					if(parseFloat(sales_rate) > 0 && parseFloat(discount) > 0){
+						discount_amount = parseFloat(sales_rate) *  parseFloat(discount)/100;
+						rate = parseFloat(sales_rate) - parseFloat(discount_amount);
+					}
+					$('#sales_rate').val(sales_rate);
+					$('#discount').val(discount);
+					$('#discount_amount').val(discount_amount);
+					$('#item_rate').val(rate);
+					
+                }
+            });
+            load();
+        });
+       
+        $("#addmore").click(function () {
+			var itemtypevalueid = $('#itemtypevalueid').val();
+            var itemtypevalue = $('#itemtypevalue').val();
+			var valdescription = $('#valdescription').val();
+			var form = 'frmcreate';
+			var id = $('#id').val();
+			var description = $('#description').val();
+			var name = $('#name').val();
+			if(itemtypevalue !== ''){
+				$("#frmcreate").validate();            // <- INITIALIZES PLUGIN
+				isValid = $("#frmcreate").isValid();
+				if (isValid) {
+					$('#itemtypevalue').val('');
+					$('#valdescription').val('');
+					$('#itemtypevalueid').val('0');
+					$.ajax({
+						url: '<?php echo site_url('Itemtype/save'); ?>',
+						type: 'post',
+						data: {itemtypevalueid:itemtypevalueid,itemtypevalue:itemtypevalue,valdescription:valdescription,id:id,name:name,description:description},
+						success: function(res) {
+							$('#id').val(res);
+							table.ajax.reload(null, false);
+						}
+					});
+				}
+			}
+        });
+
+       
+        function removekit(btn) {
+            $(btn).closest('tr').remove();
+        }
+        function clearservice() {
+
+        }
+        
+        function load() {
+            var id = $("#id").val();
+            if (id !== '0') {
+               
+            }
+			
+        }
+		
+		function editrow(id){
+			$.ajax({
+                url: "<?php echo site_url('Itemtype/editrow'); ?>/",
+				type: 'post',
+				data:{id:id},
+                success: function (results) {
+                    var result = JSON.parse(results)[0];
+                    $('#itemtypevalue').val(result.name);
+                    $('#valdescription').val(result.description)
+					$('#itemtypevalueid').val(result.id);
+					
+                }
+            });
+		}
+
+  
+    </script> 
