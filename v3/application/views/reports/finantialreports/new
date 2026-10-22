@@ -1,0 +1,146 @@
+<?php
+function num($num) {
+    if ($num < 0) {
+        $num = $num * -1;
+    }
+    return number_format($num, 2);
+}
+?>
+
+<table id="table" class="table" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th class="col-md-3"><?= label('Particulars', $this, $user) ?></th>
+            <th class="col-md-3 text-right"><?= label('Amount', $this, $user) ?></th>
+            <th class="col-md-3"><?= label('Particulars', $this, $user) ?></th>
+            <th class="col-md-3 text-right"><?= label('Amount', $this, $user) ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Opening and Closing Stock -->
+        <tr>
+            <td><?= label('Opening Stock', $this, $user) ?></td>
+            <td class="text-right"><?= num($openstock) ?></td>
+            <td><a href="<?= site_url('reports/items/fifo_lifo') ?>">Closing Stock</a></td>
+            <td class="text-right"><?= num($closingstock) ?></td>
+        </tr>
+        
+        <!-- Direct Expenses vs Direct Income -->
+        <tr>
+            <th colspan="2">Direct Expense</th>
+            <th colspan="2">Direct Income</th>
+        </tr>
+
+        <?php
+        $dir_length = max(count($direxp_data), count($dirinc_data));
+        
+        // Calculate totals including opening stock
+        $total_direxp = array_sum(array_column($direxp_data, 'balance')) + $openstock;
+        $total_dirinc = array_sum(array_column($dirinc_data, 'balance')) + $closingstock;
+        
+        for ($i = 0; $i < $dir_length; $i++) {
+            ?>
+            <tr>
+                <td>
+                    <?php if (isset($direxp_data[$i]['ledger'])) { ?> 
+                        <a onclick="showledger(<?= $direxp_data[$i]['id'] ?>, '<?= $direxp_data[$i]['ledger'] ?>')"><?= $direxp_data[$i]['ledger'] ?></a>
+                    <?php } ?>
+                </td>
+                <td class="text-right"><?= isset($direxp_data[$i]['balance']) ? num($direxp_data[$i]['balance']) : '0.00' ?></td>
+                <td>
+                    <?php if (isset($dirinc_data[$i]['ledger'])) { ?> 
+                        <a onclick="showledger(<?= $dirinc_data[$i]['id'] ?>, '<?= $dirinc_data[$i]['ledger'] ?>')"><?= $dirinc_data[$i]['ledger'] ?></a>
+                    <?php } ?>
+                </td>
+                <td class="text-right"><?= isset($dirinc_data[$i]['balance']) ? num($dirinc_data[$i]['balance']) : '0.00' ?></td>
+            </tr>
+            <?php
+        }
+        ?>
+        
+        <tr>
+            <td style="text-align: right; font-weight: bold;"><?= label('Total', $this, $user) ?></td>
+            <td class="text-right"><?= num($total_direxp) ?></td>
+            <td style="text-align: right; font-weight: bold;"><?= label('Total', $this, $user) ?></td>
+            <td class="text-right"><?= num($total_dirinc) ?></td>
+        </tr>
+        
+        <?php
+        $gross_profit = $total_dirinc - $total_direxp;
+        if ($gross_profit >= 0) {
+        ?>
+            <tr>
+                <td style="text-align: right; font-weight: bold;"><br/><?= label('Gross Profit', $this, $user) ?></td>
+                <td class="text-right"><br/><?= num($gross_profit) ?></td>
+                <td></td>
+                <td></td>
+            </tr>
+        <?php } else { ?>
+            <tr>
+                <td></td>
+                <td></td>
+                <td style="text-align: right; font-weight: bold;"><br/><?= label('Gross Loss', $this, $user) ?></td>
+                <td class="text-right"><br/><?= num($gross_profit) ?></td>
+            </tr>
+        <?php } ?>
+        
+        <!-- Indirect Expenses vs Indirect Income -->
+        <tr>
+            <th colspan="2">Indirect Expense</th>
+            <th colspan="2">Indirect Income</th>
+        </tr>
+        
+        <?php
+        $indir_length = max(count($indirexp_data), count($indirinc_data));
+        
+        // Calculate totals
+        $total_indirexp = array_sum(array_column($indirexp_data, 'balance'));
+        $total_indirinc = array_sum(array_column($indirinc_data, 'balance'));
+        
+        for ($i = 0; $i < $indir_length; $i++) {
+            ?>
+            <tr>
+                <td>
+                    <?php if (isset($indirexp_data[$i]['ledger'])) { ?> 
+                        <a onclick="showledger(<?= $indirexp_data[$i]['id'] ?>, '<?= $indirexp_data[$i]['ledger'] ?>')"><?= $indirexp_data[$i]['ledger'] ?></a>
+                    <?php } ?>
+                </td>
+                <td class="text-right"><?= isset($indirexp_data[$i]['balance']) ? num($indirexp_data[$i]['balance']) : '0.00' ?></td>
+                <td>
+                    <?php if (isset($indirinc_data[$i]['ledger'])) { ?> 
+                        <a onclick="showledger(<?= $indirinc_data[$i]['id'] ?>, '<?= $indirinc_data[$i]['ledger'] ?>')"><?= $indirinc_data[$i]['ledger'] ?></a>
+                    <?php } ?>
+                </td>
+                <td class="text-right"><?= isset($indirinc_data[$i]['balance']) ? num($indirinc_data[$i]['balance']) : '0.00' ?></td>
+            </tr>
+            <?php
+        }
+        ?>
+        
+        <tr>
+            <td style="text-align: right; font-weight: bold;"><?= label('Total', $this, $user) ?></td>
+            <td class="text-right"><?= num($total_indirexp) ?></td>
+            <td style="text-align: right; font-weight: bold;"><?= label('Total', $this, $user) ?></td>
+            <td class="text-right"><?= num($total_indirinc) ?></td>
+        </tr>
+        
+        <?php
+        $net_profit = ($gross_profit + $total_indirinc) - $total_indirexp;
+        if ($net_profit >= 0) {
+        ?>
+            <tr>
+                <td style="text-align: right; font-weight: bold;"><?= label('Net Profit', $this, $user) ?></td>
+                <td class="text-right"><?= num($net_profit) ?></td>
+                <td></td>
+                <td></td>
+            </tr>
+        <?php } else { ?>
+            <tr>
+                <td></td>
+                <td></td>
+                <td style="text-align: right; font-weight: bold;"><?= label('Net Loss', $this, $user) ?></td>
+                <td class="text-right"><?= num($net_profit) ?></td>
+            </tr>
+        <?php } ?>
+    </tbody>
+</table>
