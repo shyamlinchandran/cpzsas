@@ -1,0 +1,1 @@
+ALTER TABLE `company_settings` ADD `is_batch` ENUM('0','1') NOT NULL AFTER `is_bankac`;

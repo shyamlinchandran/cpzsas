@@ -1,0 +1,108 @@
+-- phpMyAdmin SQL Dump
+-- version 4.7.4
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Aug 06, 2018 at 05:56 PM
+-- Server version: 10.1.28-MariaDB
+-- PHP Version: 7.1.10
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `dims_new`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `state`
+--
+
+CREATE TABLE `state` (
+  `StateID` int(11) NOT NULL,
+  `CountryID` int(11) NOT NULL,
+  `StateName` varchar(50) NOT NULL,
+  `code` int(11) NOT NULL,
+  `Notes` longtext,
+  `ChangeDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `state`
+--
+
+INSERT INTO `state` (`StateID`, `CountryID`, `StateName`, `code`, `Notes`, `ChangeDate`) VALUES
+(36, 1, 'ANDHRA PRADESH', 28, NULL, '2018-08-06 07:52:43'),
+(37, 1, 'ASSAM', 18, NULL, '2018-08-06 07:52:47'),
+(38, 1, 'ARUNACHAL PRADESH', 12, NULL, '2018-08-06 07:52:57'),
+(39, 1, 'GUJARAT', 24, NULL, '2018-08-06 07:54:15'),
+(40, 1, 'BIHAR', 10, NULL, '2018-08-06 07:55:01'),
+(41, 1, 'HARYANA', 6, NULL, '2018-08-06 07:55:07'),
+(42, 1, 'HIMACHAL PRADESH', 2, NULL, '2018-08-06 07:55:18'),
+(43, 1, 'JAMMU & KASHMIR', 1, NULL, '2018-03-21 13:05:42'),
+(44, 1, 'KARNATAKA', 29, NULL, '2018-08-06 07:55:35'),
+(45, 1, 'KERALA', 32, NULL, '2018-08-06 07:24:16'),
+(46, 1, 'MADHYA PRADESH', 23, NULL, '2018-08-06 07:55:58'),
+(47, 1, 'MAHARASHTRA', 27, NULL, '2018-08-06 07:56:05'),
+(48, 1, 'MANIPUR', 14, NULL, '2018-08-06 07:56:25'),
+(49, 1, 'MEGHALAYA', 17, NULL, '2018-08-06 07:56:48'),
+(50, 1, 'MIZORAM', 15, NULL, '2018-08-06 07:57:57'),
+(51, 1, 'NAGALAND', 13, NULL, '2018-08-06 07:58:05'),
+(52, 1, 'ODISHA', 21, NULL, '2018-08-06 07:58:25'),
+(53, 1, 'PUNJAB', 3, NULL, '2018-08-06 07:58:38'),
+(54, 1, 'RAJASTHAN', 8, NULL, '2018-08-06 07:58:51'),
+(55, 1, 'SIKKIM', 11, NULL, '2018-08-06 07:58:59'),
+(56, 1, 'TAMIL NADU', 33, NULL, '2018-08-06 07:59:07'),
+(57, 1, 'TRIPURA', 35, NULL, '2018-08-06 07:59:15'),
+(58, 1, 'UTTAR PRADESH', 9, NULL, '2018-08-06 08:00:12'),
+(59, 1, 'WEST BENGAL', 19, NULL, '2018-08-06 08:00:22'),
+(60, 1, 'DELHI', 7, NULL, '2018-08-06 08:00:37'),
+(61, 1, 'GOA', 30, NULL, '2018-03-21 13:05:43'),
+(62, 1, 'PONDICHERY', 0, NULL, '2018-03-21 13:05:43'),
+(63, 1, 'LAKSHDWEEP', 0, NULL, '2018-03-21 13:05:43'),
+(64, 1, 'DAMAN & DIU', 0, NULL, '2018-03-21 13:05:43'),
+(65, 1, 'DADRA & NAGAR', 0, NULL, '2018-03-21 13:05:43'),
+(66, 1, 'CHANDIGARH', 0, NULL, '2018-03-21 13:05:43'),
+(67, 1, 'ANDAMAN & NICOBAR', 0, NULL, '2018-03-21 13:05:43'),
+(68, 1, 'UTTARANCHAL', 0, NULL, '2018-03-21 13:05:43'),
+(69, 1, 'JHARKHAND', 0, NULL, '2018-03-21 13:05:43'),
+(70, 1, 'CHATTISGARH', 0, NULL, '2018-03-21 13:05:43'),
+(71, 1, 'UTTARANCHAL', 5, NULL, '0000-00-00 00:00:00'),
+(72, 1, 'JHARKHAND', 20, NULL, '0000-00-00 00:00:00'),
+(73, 1, 'CHATTISGARH', 22, NULL, '0000-00-00 00:00:00'),
+(74, 1, 'TELANGANA', 36, NULL, '0000-00-00 00:00:00');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `state`
+--
+ALTER TABLE `state`
+  ADD PRIMARY KEY (`StateID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `state`
+--
+ALTER TABLE `state`
+  MODIFY `StateID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -1,0 +1,5 @@
+INSERT INTO `menus` (`id`, `ListName`, `Url`, `parent`, `icon`, `published`, `updatedate`) VALUES (NULL, 'Tailoring', NULL, '', 'fa fa-scissors', 'yes', CURRENT_TIMESTAMP);
+INSERT INTO `menus` (`id`, `ListName`, `Url`, `parent`, `icon`, `published`, `updatedate`) VALUES (NULL, 'Size Master', 'master/thaitems/size', '', '', 'yes', CURRENT_TIMESTAMP);
+INSERT INTO `menus` (`id`, `ListName`, `Url`, `parent`, `icon`, `published`, `updatedate`) VALUES (NULL, 'Item Master', 'master/thaitems/items', '', '', 'yes', CURRENT_TIMESTAMP);
+INSERT INTO `menus` (`id`, `ListName`, `Url`, `parent`, `icon`, `published`, `updatedate`) VALUES (NULL, 'Customer - Tailoring', 'master/thaitems/customers', '', '', 'yes', CURRENT_TIMESTAMP);
+INSERT INTO `menus` (`id`, `ListName`, `Url`, `parent`, `icon`, `published`, `updatedate`) VALUES (NULL, 'Sales - Tailoring', 'tai/trans/listall', '', '', 'yes', CURRENT_TIMESTAMP);

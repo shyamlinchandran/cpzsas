@@ -1,0 +1,13 @@
+ALTER TABLE `company_settings` ADD `is_analytics` ENUM('0','1') NOT NULL AFTER `is_batch`, ADD `is_cost_centre` ENUM('0','1') NOT NULL AFTER `is_analytics`;
+ALTER TABLE `acc_ledger_trans` ADD `cost_center` VARCHAR(30) NOT NULL AFTER `tran_crtd_by`;
+ALTER TABLE `sales` ADD `cost_center` VARCHAR(30) NOT NULL AFTER `cusemail`;
+ALTER TABLE `purchase` ADD `cost_center` VARCHAR(30) NOT NULL AFTER `invoice`
+ALTER TABLE `sales_items` ADD `analytics` INT NOT NULL AFTER `godown`;
+ALTER TABLE `purchase_items` ADD `analytics` INT NOT NULL AFTER `discount`;
+ALTER TABLE `company_settings` ADD `select_master` ENUM('0','1') NOT NULL AFTER `comset_state`;
+ALTER TABLE `voucher` ADD `cost_center` INT NOT NULL AFTER `voucher_no`;
+
+
+
+
+

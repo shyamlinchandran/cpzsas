@@ -1,0 +1,6 @@
+ALTER TABLE `purchase` ADD `estimate_id` INT NOT NULL AFTER `bill_type`, ADD `status` ENUM('pending','incompleted','completed') NOT NULL AFTER `estimate_id`;
+ALTER TABLE `purchase_items` ADD `estimate_quantity` DECIMAL(10,2) NOT NULL AFTER `quantity`;
+ALTER TABLE `purchase` CHANGE `estimate_id` `order_id` INT(11) NOT NULL;
+ALTER TABLE `purchase_items` CHANGE `estimate_quantity` `order_quantity` DECIMAL(10,2) NOT NULL;
+
+

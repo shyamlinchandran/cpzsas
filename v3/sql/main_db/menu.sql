@@ -1,0 +1,1 @@
+INSERT INTO `menus` (`id`, `ListName`, `Url`, `parent`, `icon`, `published`) VALUES (NULL, 'Subscription Menu Types', 'settings/SubscriptionMenuTypes/listall', '17', '', '');

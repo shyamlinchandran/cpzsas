@@ -1,0 +1,12 @@
+ALTER TABLE `company_settings` ADD `is_taxincluded` ENUM('0','1') NOT NULL AFTER `is_batch`
+ALTER TABLE `sales_items` ADD `is_taxincluded` ENUM('0','1') NOT NULL AFTER `tax`
+ALTER TABLE `set_printtype` ADD `bill_default` ENUM('no','yes') NOT NULL AFTER `published`
+ALTER TABLE `sales` ADD `printtype` INT NOT NULL AFTER `cash_type`
+ALTER TABLE `company_settings` ADD `item_rack` ENUM('0','1') NOT NULL AFTER `is_godown`
+ALTER TABLE `company_settings` ADD `item_min_rate` ENUM('0','1') NOT NULL AFTER `item_commission`
+
+ALTER TABLE `company_settings` ADD `item_commission` ENUM('0','1') NOT NULL AFTER `item_commission`
+ALTER TABLE `sales` ADD `saletype` ENUM('b2b','b2c') NOT NULL AFTER `updatedate`
+	
+
+

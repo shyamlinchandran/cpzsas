@@ -1,0 +1,33 @@
+ALTER TABLE `acc_ledgers` ADD `tax_id` INT NOT NULL AFTER `ref_id`;
+
+ALTER TABLE `sales` ADD `cusgst` VARCHAR(20) NOT NULL AFTER `cusname`, ADD `cusstate` INT NOT NULL AFTER `cusgst`;
+ALTER TABLE `sales_items` ADD `item_margin` DECIMAL(10,2) NOT NULL AFTER `mrp`;
+ALTER TABLE `sales` ADD `bill_margin` DECIMAL(10,2) NOT NULL AFTER `bill_type`;
+ALTER TABLE `set_printtype` ADD `bill_format` VARCHAR(20) NOT NULL DEFAULT 'bill'
+
+
+
+141118
+ALTER TABLE `company_settings` ADD `is_discription` ENUM('0','1') NOT NULL AFTER `is_unit`;
+ALTER TABLE `company_settings` ADD `is_itemcode` ENUM('0','1') NOT NULL AFTER `is_unit`;
+ALTER TABLE `sales` ADD `ewb_no` VARCHAR(20) NOT NULL AFTER `cusstate`, ADD `ewb_details` VARCHAR(100) NOT NULL AFTER `ewb_no`;
+
+17-11-18
+ALTER TABLE `item` ADD `material_type` INT NOT NULL AFTER `exp_date`;
+UPDATE `item` SET `material_type` = '1'
+ALTER TABLE `item` ADD `analytics_id` INT NOT NULL AFTER `material_type`;
+ALTER TABLE `item_ledger` CHANGE `open_stock` `open_stock` DECIMAL(10,2) NULL DEFAULT '0';
+
+
+
+ALTER TABLE `acc_type` ADD `type_code` VARCHAR(250) NOT NULL AFTER `name`;
+ALTER TABLE `acc_sub_type` ADD `sub_code` VARCHAR(250) NOT NULL AFTER `name`;
+
+
+
+ALTER TABLE `set_billtype` CHANGE `transaction` `transaction` ENUM('sales','purchase','sales_return','purchase_return','estimate','order','pay','rec','jou','quotation') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+
+ALTER TABLE `set_billtype` ADD `cash` INT NOT NULL AFTER `godown_id`, ADD `bank` INT NOT NULL AFTER `cash`;
+ALTER TABLE `sales` CHANGE `cash_type` `cash_type` ENUM('Cash','Credit','Bank') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;
+ALTER TABLE `purchase` CHANGE `vehicle` `vehicle` INT(11) NULL DEFAULT '0';
+

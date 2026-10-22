@@ -1,0 +1,2 @@
+ALTER TABLE `set_printtype` CHANGE `bill_format` `bill_format` INT NOT NULL;
+UPDATE `set_printtype` SET `bill_format` = '1'

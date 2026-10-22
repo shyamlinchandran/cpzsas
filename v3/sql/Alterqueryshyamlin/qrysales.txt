@@ -1,0 +1,5 @@
+ALTER TABLE `company_settings` ADD `terms_condition` VARCHAR(500) NOT NULL AFTER `comset_currrncy_symbol`;
+ALTER TABLE `sales` ADD `terms_condition` VARCHAR(500) NOT NULL AFTER `ewb_details`, ADD `despatch_details` VARCHAR(500) NOT NULL AFTER `terms_condition`;
+
+ALTER TABLE `sales` CHANGE `terms_condition` `terms_condition` VARCHAR(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Enter text here...', CHANGE `despatch_details` `despatch_details` VARCHAR(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Enter text here...';
+ALTER TABLE `sales` CHANGE `terms_condition` `terms_condition` VARCHAR(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT 'Enter text here...', CHANGE `despatch_details` `despatch_details` VARCHAR(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT 'Enter text here...';

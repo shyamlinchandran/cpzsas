@@ -1,0 +1,1 @@
+ALTER TABLE `acc_ledgers` ADD `acc_ledger_code` VARCHAR(20) NOT NULL AFTER `name`;

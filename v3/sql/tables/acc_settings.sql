@@ -1,0 +1,71 @@
+-- phpMyAdmin SQL Dump
+-- version 4.7.4
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Nov 20, 2018 at 02:37 PM
+-- Server version: 10.1.28-MariaDB
+-- PHP Version: 7.0.24
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `test_123`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `acc_settings`
+--
+
+CREATE TABLE `acc_settings` (
+  `set_id` int(11) NOT NULL,
+  `type` varchar(20) NOT NULL,
+  `set_key` varchar(20) NOT NULL,
+  `set_value` varchar(500) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `acc_settings`
+--
+
+INSERT INTO `acc_settings` (`set_id`, `type`, `set_key`, `set_value`) VALUES
+(1, 'profit', 'dir_income', '9,21,22'),
+(2, 'profit', 'dir_expence', '8,19,20'),
+(3, 'profit', 'indir_expence', '11'),
+(4, 'profit', 'indir_income', '12');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `acc_settings`
+--
+ALTER TABLE `acc_settings`
+  ADD PRIMARY KEY (`set_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `acc_settings`
+--
+ALTER TABLE `acc_settings`
+  MODIFY `set_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

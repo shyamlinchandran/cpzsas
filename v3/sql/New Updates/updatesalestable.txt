@@ -1,0 +1,16 @@
+ALTER TABLE `sales` CHANGE `cash_type` `cash_type` ENUM('Cash','Credit','Bank') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;
+ALTER TABLE `purchase_items` ADD `item_discription` VARCHAR(500) NOT NULL AFTER `mrp`;
+ALTER TABLE `sales` ADD `estimate_id` INT NOT NULL AFTER `customer_id`;
+ALTER TABLE `sales` CHANGE `estimate_id` `estimate_id` INT(11) NOT NULL DEFAULT '0';
+ALTER TABLE `sales_items` ADD `estimate_quantity` DECIMAL(10,2) NOT NULL AFTER `quantity`;
+ALTER TABLE `sales` ADD `status` ENUM('completed','incompleted','pending') NOT NULL AFTER `estimate_id`;
+update sales set status='pending';
+
+ALTER TABLE `purchase` ADD `supgst` VARCHAR(20) NULL AFTER `salesman`, ADD `supstate` INT NOT NULL AFTER `supgst`, ADD `ewb_no` VARCHAR(20) NOT NULL AFTER `supstate`, ADD `ewb_details` VARCHAR(100) NOT NULL AFTER `ewb_no`;
+
+ALTER TABLE `purchase_items` ADD `is_taxincluded` ENUM('0','1') NOT NULL AFTER `dis_amt`;
+
+
+
+
+
