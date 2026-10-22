@@ -1,0 +1,36 @@
+@media print {
+    @page { margin: 0; }
+    body {
+      margin: 20px !important;
+      color: #000;
+      background-color: #fff;
+      font-size: 12px !important;
+      font-family: Verdana,Geneva,sans-serif; 
+    }
+    button {
+        display: none;
+    }
+    i {
+        display: none !important;
+    }
+    .glyphicon {
+        display: none;
+    }
+    .btn .btn-primary {
+        display: none !important;
+        border: none !important;
+    }
+    .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+        padding: 8px;
+        line-height: 1.42857143;
+        vertical-align: top;
+        font-size: 12px !important;
+        border-top: 1px solid #ddd;
+    }
+    h2 {
+        font-size: 16px;
+    }
+    .print {
+        display: none;
+    }
+  }
